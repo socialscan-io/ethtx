@@ -194,7 +194,7 @@ class Web3Provider(NodeDataProvider):
             gas=raw_tx.gas,
             gasPrice=raw_tx.gasPrice,
             hash=raw_tx.hash,
-            input=raw_tx.input,
+            input=raw_tx.input.hex(),
             nonce=raw_tx.nonce,
             r=raw_tx.r,
             s=raw_tx.s,
@@ -252,7 +252,7 @@ class Web3Provider(NodeDataProvider):
     def get_calls(self, tx_hash: str, chain_id: Optional[str] = None) -> W3CallTree:
         # tracer is a temporary fixed implementation of geth tracer
         chain = self._get_node_connection(chain_id)
-        tracer = self._get_custom_calls_tracer()
+        tracer = 'callTracer'
         response = chain.manager.request_blocking(
             "debug_traceTransaction", [tx_hash, {"tracer": tracer, "timeout": "60s"}]
         )
